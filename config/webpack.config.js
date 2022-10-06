@@ -16,6 +16,7 @@ module.exports = {
     filename: __PRD__
       ? 'static/js/[name].[contenthash:8].js'
       : 'static/js/bundle.js',
+    publicPath: paths.publicUrlOrPath,
   },
   // optimization: {
   //   splitChunks: {
