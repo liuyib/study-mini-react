@@ -1,0 +1,22 @@
+{
+  "name": "study-mini-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".",
+  "scripts": {
+    "start": "webpack --mode development --config ./config/webpack.config.js",
+    "eslint": "eslint --fix 'src/**/**/*.{js,jsx,ts,tsx}'",
+    "prettier": "prettier --write 'src/**/**/*.{js,jsx,ts,tsx,css,scss,less,json,md,yml,yaml}'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
