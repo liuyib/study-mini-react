@@ -28,7 +28,7 @@ function createTextElement(text) {
 function render(element, container) {
   const dom =
     element.type === 'TEXT_ELEMENT'
-      ? document.createTextElement('')
+      ? document.createTextNode('')
       : document.createElement(element.type);
 
   element.props.children = element.props.children.map((child) =>
