@@ -15,15 +15,15 @@ module.exports = {
       ? 'static/js/[name].[contenthash:8].js'
       : 'static/js/bundle.js',
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: false,
-    },
-    runtimeChunk: {
-      name: (entrypoint) => `runtime-${entrypoint.name}`,
-    },
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //     name: false,
+  //   },
+  //   runtimeChunk: {
+  //     name: (entrypoint) => `runtime-${entrypoint.name}`,
+  //   },
+  // },
   module: {
     rules: [
       {
