@@ -7,6 +7,7 @@ specifiers:
   babel-loader: ^8.2.5
   clean-webpack-plugin: ^4.0.0
   copy-webpack-plugin: ^11.0.0
+  cross-env: ^7.0.3
   html-webpack-plugin: ^5.5.0
   react: ^16.8.0
   react-dom: ^16.8.0
@@ -24,6 +25,7 @@ devDependencies:
   babel-loader: 8.2.5_wfdvla2jorjoj23kkavho2upde
   clean-webpack-plugin: 4.0.0_webpack@5.74.0
   copy-webpack-plugin: 11.0.0_webpack@5.74.0
+  cross-env: 7.0.3
   html-webpack-plugin: 5.5.0_webpack@5.74.0
   webpack: 5.74.0_webpack-cli@4.10.0
   webpack-cli: 4.10.0_webpack@5.74.0
@@ -1804,6 +1806,14 @@ packages:
     resolution: {integrity: sha512-ovcyhs2DEBUIE0MGEKHP4olCUW/XYte3Vroyxuh38rD1wAO4dHohsovUC4eAOuzFxE6b+RXvBU3UZ9o0YhUTkA==}
     dependencies:
       browserslist: 4.21.4
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn/7.0.3:
