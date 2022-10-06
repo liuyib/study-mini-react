@@ -18,6 +18,11 @@ module.exports = {
       : 'static/js/bundle.js',
     publicPath: paths.publicUrlOrPath,
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+  },
   // optimization: {
   //   splitChunks: {
   //     chunks: 'all',
