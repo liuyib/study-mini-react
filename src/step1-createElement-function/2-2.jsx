@@ -2,6 +2,8 @@
  * 告诉 Babel 用自定义的 createElement 去处理 JSX
  */
 
+import ReactDOM from 'react-dom';
+
 function createElement(type, props, ...children) {
   return {
     type,

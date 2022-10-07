@@ -2,6 +2,9 @@
  * 手动实现 createElement 函数
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 function createElement(type, props, ...children) {
   return {
     type,

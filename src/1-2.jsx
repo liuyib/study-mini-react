@@ -1,3 +1,5 @@
+import ReactDOM from 'react-dom';
+
 // const element = <h1 title="foo">Hello</h1>;
 // 被替换为以下代码：
 

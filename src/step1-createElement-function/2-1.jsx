@@ -2,6 +2,8 @@
  * 替换 React 命名空间
  */
 
+import ReactDOM from 'react-dom';
+
 function createElement(type, props, ...children) {
   return {
     type,

@@ -2,6 +2,9 @@
  * 声明 createTextElement 函数，处理 createELement 中是原始值的 children
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 function createElement(type, props, ...children) {
   return {
     type,
