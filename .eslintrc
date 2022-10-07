@@ -15,7 +15,9 @@
     // 关闭检查 jsx/tsx 中是否引入了 React（react v17+ 版本以后，无需手动引入 React）
     "react/react-in-jsx-scope": "off",
     // 允许有未使用的变量
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    // 允许使用弃用的 API（我们自己实现 Mini React 时，可能实现了 React 弃用的 API，而引起 ESLint 报错）
+    "react/no-deprecated": "off"
   },
   "globals": {
     "module": true,
