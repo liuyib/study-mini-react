@@ -30,14 +30,17 @@ function render(element, container) {
     element.type === 'TEXT_ELEMENT'
       ? document.createTextNode('')
       : document.createElement(element.type);
+
   const isProperty = (key) => key !== 'children';
 
+  // 传入的参数赋值到 DOM 上
   Object.keys(element.props)
     .filter(isProperty)
     .forEach((name) => {
       dom[name] = element.props[name];
     });
 
+  // 递归处理子项
   element.props.children = element.props.children.map((child) =>
     render(child, dom),
   );
