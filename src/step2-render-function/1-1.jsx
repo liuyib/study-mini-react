@@ -25,7 +25,7 @@ function createTextElement(text) {
 }
 
 function render() {
-  // TODO: ...
+  // This will realize in next file (./1-2-1.jsx)
 }
 
 const Didact = {
