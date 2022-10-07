@@ -10,6 +10,7 @@ const paths = require('./paths');
 const __PRD__ = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  devtool: __PRD__ ? false : 'cheap-module-source-map',
   entry: path.resolve(process.cwd(), 'src/index.jsx'),
   output: {
     path: path.resolve(process.cwd(), 'dist'),
