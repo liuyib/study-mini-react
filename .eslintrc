@@ -1,6 +1,7 @@
 {
   "env": {
     "browser": true,
+    "node": true,
     "es2021": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
@@ -10,5 +11,15 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    // 关闭检查 jsx/tsx 中是否引入了 React（react v17+ 版本以后，无需手动引入 React）
+    "react/react-in-jsx-scope": "off",
+    // 允许有未使用的变量
+    "no-unused-vars": "off"
+  },
+  "globals": {
+    "module": true,
+    "process": true,
+    "require": true
+  }
 }
