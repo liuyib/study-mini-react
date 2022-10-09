@@ -132,10 +132,6 @@ function performNextUnitOfWork(fiber) {
   if (!fiber.dom) {
     fiber.dom = createDom(fiber);
   }
-  // 添加到 DOM 中
-  if (fiber.parent) {
-    fiber.parent.dom.appendChild(fiber.dom);
-  }
 
   // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;

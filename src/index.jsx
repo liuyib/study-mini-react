@@ -14,6 +14,7 @@
 /**
  * 1. 解决潜在问题：每次处理 Fiber 节点时，都会向 DOM 中添加元素，
  *               因此浏览器可能会打断整个 Fiber 树的渲染，从而可能导致用户看到不完整的 UI
- * 2. 解决方法：处理完所有工作后，再统一将所有 Fiber 提交到 DOM 中
+ * 2. 解决方法：处理 Fiber 时，暂时不提交到 DOM 中，等处理完所有 Fiber 后，
+ *            再统一将所有 Fiber 提交到 DOM 中
  */
 import './step5-render-and-commit-phases/1-2.jsx';
