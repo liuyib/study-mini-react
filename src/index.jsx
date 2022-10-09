@@ -9,4 +9,11 @@
  * 1. 实现 Concurrent Mode
  * 2. 引入 Fiber 架构（采用可中断的遍历方式更新 Fiber Reconciler）
  */
-import './step4-fibers/2-2.jsx';
+// import './step4-fibers/2-2.jsx';
+
+/**
+ * 1. 解决潜在问题：每次处理 Fiber 节点时，都会向 DOM 中添加元素，
+ *               因此浏览器可能会打断整个 Fiber 树的渲染，从而可能导致用户看到不完整的 UI
+ * 2. 解决方法：处理完所有工作后，再统一将所有 Fiber 提交到 DOM 中
+ */
+import './step5-render-and-commit-phases/1-2.jsx';
