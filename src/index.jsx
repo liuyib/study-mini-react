@@ -17,4 +17,10 @@
  * 2. 解决方法：处理 Fiber 时，暂时不提交到 DOM 中，等处理完所有 Fiber 后，
  *            再统一将所有 Fiber 提交到 DOM 中
  */
-import './step5-render-and-commit-phases/1-2.jsx';
+// import './step5-render-and-commit-phases/1-2.jsx';
+
+/**
+ * TODO:
+ * 1. Reconciliation
+ */
+// import './step6-reconciliation/2-2.jsx';
