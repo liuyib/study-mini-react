@@ -1,7 +1,16 @@
 /**
  * 优化 commitWork 函数，让 `effectTag` 标记生效
- * TODO:
+ *
+ * `effectTag` 标记值作用：
+ * 1. PLACEMENT - 添加
+ * 2. UPDATE    - 更新
+ * 3. DELETION  - 删除
+ *
+ * 对于“添加”和“删除”操作较为简单，直接 appendChild、removeChild，
+ * 对于“更新”逻辑，我们借助 updateDom(dom, prevProps, nextProps) 函数实现
  */
+
+import { isNil } from '../utils/isType.js';
 
 /**
  * 创建“React 元素”
@@ -61,6 +70,13 @@ function createDom(fiber) {
 }
 
 /**
+ * 使用 Fiber 节点更新对应的 DOM
+ */
+function updateDom(dom, prevProps, nextProps) {
+  // TODO:
+}
+
+/**
  * 从 Fiber 根节点开始，将所有 Fiber 节点提交到 DOM 中
  */
 function commitRoot() {
@@ -82,7 +98,16 @@ function commitWork(fiber) {
 
   const domParent = fiber.parent.dom;
 
-  domParent.appendChild = fiber.dom;
+  if (fiber.effectTag === 'PLACEMENT' && !isNil(fiber.dom)) {
+    domParent.appendChild(fiber.dom);
+  }
+  if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
+    updateDom(fiber.dom, fiber.alternate.props, fiber.props);
+  }
+  if (fiber.effectTag === 'DELETION' && !isNil(fiber.dom)) {
+    domParent.removeChild(fiber.dom);
+  }
+
   commitWork(fiber.child);
   commitWork(fiber.sibling);
 }
@@ -187,7 +212,7 @@ function reconcileChildren(wipFiber, elements) {
   let oldFiber = wipFiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || oldFiber !== null) {
+  while (index < elements.length || !isNil(oldFiber)) {
     const element = elements[index];
     let newFiber = null;
 
@@ -213,7 +238,7 @@ function reconcileChildren(wipFiber, elements) {
     }
     if (!sameType && element) {
       newFiber = {
-        type: oldFiber.type,
+        type: element.type,
         props: element.props,
         dom: null,
         parent: wipFiber,
@@ -229,18 +254,19 @@ function reconcileChildren(wipFiber, elements) {
       deletions.push(oldFiber);
     }
 
-    // if (oldFiber) {
-    //   oldFiber = oldFiber.sibling;
-    // }
+    if (oldFiber) {
+      oldFiber = oldFiber.sibling;
+    }
 
-    // // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
-    // if (index === 0) {
-    //   wipFiber.child = newFiber;
-    //   prevSibling.sibling = newFiber;
-    // }
+    // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
+    if (index === 0) {
+      wipFiber.child = newFiber;
+    } else {
+      prevSibling.sibling = newFiber;
+    }
 
-    // prevSibling = newFiber;
-    // index++;
+    prevSibling = newFiber;
+    index++;
   }
 }
 
