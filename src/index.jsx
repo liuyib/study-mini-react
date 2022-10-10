@@ -20,7 +20,6 @@
 // import './step5-render-and-commit-phases/1-2.jsx';
 
 /**
- * TODO:
  * 1. Reconciliation
  */
-// import './step6-reconciliation/2-2.jsx';
+import './step6-reconciliation/3-3.jsx';
