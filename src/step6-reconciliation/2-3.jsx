@@ -5,6 +5,8 @@
  *    因此需要使用数组单独保存“被删除的 Fiber”，以便后续从 DOM 中真正删除
  */
 
+import { isNil } from '../utils/isType.js';
+
 /**
  * 创建“React 元素”
  * @param {string} type                   元素类型
@@ -189,7 +191,7 @@ function reconcileChildren(wipFiber, elements) {
   let oldFiber = wipFiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || oldFiber !== null) {
+  while (index < elements.length || !isNil(oldFiber)) {
     const element = elements[index];
     let newFiber = null;
 
@@ -215,7 +217,7 @@ function reconcileChildren(wipFiber, elements) {
     }
     if (!sameType && element) {
       newFiber = {
-        type: oldFiber.type,
+        type: element.type,
         props: element.props,
         dom: null,
         parent: wipFiber,
@@ -231,18 +233,19 @@ function reconcileChildren(wipFiber, elements) {
       deletions.push(oldFiber);
     }
 
-    // if (oldFiber) {
-    //   oldFiber = oldFiber.sibling;
-    // }
+    if (oldFiber) {
+      oldFiber = oldFiber.sibling;
+    }
 
-    // // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
-    // if (index === 0) {
-    //   wipFiber.child = newFiber;
-    //   prevSibling.sibling = newFiber;
-    // }
+    // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
+    if (index === 0) {
+      wipFiber.child = newFiber;
+    } else {
+      prevSibling.sibling = newFiber;
+    }
 
-    // prevSibling = newFiber;
-    // index++;
+    prevSibling = newFiber;
+    index++;
   }
 }
 

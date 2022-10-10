@@ -3,6 +3,8 @@
  * 2. 在 reconcileChildren 中将会协调“旧 Fiber”和“新元素”
  */
 
+import { isNil } from '../utils/isType.js';
+
 /**
  * 创建“React 元素”
  * @param {string} type                   元素类型
@@ -171,7 +173,7 @@ function performNextUnitOfWork(fiber) {
 }
 
 /**
- * 协调旧 Fiber 与新元素
+ * 协调“旧 Fiber”与“新元素”
  * @param {Fiber} wipFiber                      Fiber 节点
  * @param {DetailedReactHTMLElement[]} elements React.crateElement 的返回值数组
  * @returns
@@ -181,24 +183,25 @@ function reconcileChildren(wipFiber, elements) {
   let oldFiber = wipFiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || oldFiber !== null) {
+  while (index < elements.length || !isNil(oldFiber)) {
     const element = elements[index];
     let newFiber = null;
 
     // TODO: compare oldFiber to element
 
-    // if (oldFiber) {
-    //   oldFiber = oldFiber.sibling;
-    // }
+    if (oldFiber) {
+      oldFiber = oldFiber.sibling;
+    }
 
-    // // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
-    // if (index === 0) {
-    //   wipFiber.child = newFiber;
-    //   prevSibling.sibling = newFiber;
-    // }
+    // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
+    if (index === 0) {
+      wipFiber.child = newFiber;
+    } else {
+      prevSibling.sibling = newFiber;
+    }
 
-    // prevSibling = newFiber;
-    // index++;
+    prevSibling = newFiber;
+    index++;
   }
 }
 
