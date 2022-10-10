@@ -20,6 +20,10 @@
 // import './step5-render-and-commit-phases/1-2.jsx';
 
 /**
- * 1. Reconciliation
+ * 1. 实现 Reconciliation，其主要工作如下：
+ *    a. 更新 Fiber 上的属性
+ *    b. 通过对比新旧 Fiber 树，打标记（effectTag）
+ * 2. 为了实现“对比新旧 Fiber 树”，需要用变量保存“最后一次提交到 DOM 的 Fiber 树”
+ * 3. 在 commit 阶段，会根据 effectTag 标记，完成 DOM 的添加、更新、删除
  */
 import './step6-reconciliation/3-3.jsx';
