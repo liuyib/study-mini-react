@@ -13,7 +13,7 @@ module.exports = {
   devtool: __PRD__ ? false : 'cheap-module-source-map',
   entry: path.resolve(process.cwd(), 'src/index.jsx'),
   output: {
-    path: path.resolve(process.cwd(), 'dist'),
+    path: path.resolve(process.cwd(), 'docs'),
     filename: __PRD__
       ? 'static/js/[name].[contenthash:8].js'
       : 'static/js/bundle.js',
