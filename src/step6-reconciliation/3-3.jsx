@@ -301,7 +301,6 @@ const Didact = {
   render,
 };
 
-/** @jsx Didact.createElement */
 const container = document.getElementById('root');
 
 const updateValue = (e) => {
@@ -309,12 +308,14 @@ const updateValue = (e) => {
 };
 
 const rerender = (value) => {
+  /** @jsx Didact.createElement */
   const element = (
     <div>
       <input onInput={updateValue} value={value} />
       <h2>Hello {value}</h2>
     </div>
   );
+
   Didact.render(element, container);
 };
 
