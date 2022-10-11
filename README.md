@@ -2,6 +2,8 @@
 
 from: https://pomb.us/build-your-own-react/
 
+source: https://github.com/pomber/didact/blob/master/didact.js
+
 ## Demo
 
 ```bash
