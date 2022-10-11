@@ -29,6 +29,11 @@
 // import './step6-reconciliation/3-3.jsx';
 
 /**
- * 1. Function Components
+ * 1. 支持 Function Components，其主要特点如下：
+ *    a. 没有对应的 DOM 节点
+ *    b. 无法通过 props 获取 children，而是通过执行函数来获取
+ * 2. 在 commit 阶段，由于函数组件没有对应的 DOM，因此需要以下特殊处理：
+ *    a. 添加 DOM，沿着 Fiber 一直往上找，直到找到具有 DOM 的 Fiber
+ *    b. 删除 DOM，沿着 Fiber 一直往下找，递归删除所有子代 DOM
  */
 import './step7-function-components/2-3.jsx';
