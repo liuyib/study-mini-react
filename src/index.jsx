@@ -36,4 +36,9 @@
  *    a. 添加 DOM，沿着 Fiber 一直往上找，直到找到具有 DOM 的 Fiber
  *    b. 删除 DOM，沿着 Fiber 一直往下找，递归删除所有子代 DOM
  */
-import './step7-function-components/2-3.jsx';
+// import './step7-function-components/2-3.jsx';
+
+/**
+ * 1. Hooks
+ */
+import './step8-hooks/2-3.jsx';
