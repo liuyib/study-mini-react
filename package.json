@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --mode development --config ./config/webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --mode production --config ./config/webpack.config.js",
+    "build:github-pages": "cross-env NODE_ENV=production PUBLIC_URL=/study-mini-react/ webpack --mode production --config ./config/webpack.config.js",
     "eslint": "eslint --fix 'src/**/**/*.{js,jsx,ts,tsx}'",
     "prettier": "prettier --write 'src/**/**/*.{js,jsx,ts,tsx,css,scss,less,json,md,yml,yaml}'"
   },
