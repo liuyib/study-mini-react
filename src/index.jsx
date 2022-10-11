@@ -26,4 +26,9 @@
  * 2. 为了实现“对比新旧 Fiber 树”，需要用变量保存“最后一次提交到 DOM 的 Fiber 树”
  * 3. 在 commit 阶段，会根据 effectTag 标记，完成 DOM 的添加、更新、删除
  */
-import './step6-reconciliation/3-3.jsx';
+// import './step6-reconciliation/3-3.jsx';
+
+/**
+ * 1. Function Components
+ */
+import './step7-function-components/1.jsx';
