@@ -31,4 +31,4 @@
 /**
  * 1. Function Components
  */
-import './step7-function-components/1.jsx';
+import './step7-function-components/2-3.jsx';
