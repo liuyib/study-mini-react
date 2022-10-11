@@ -70,7 +70,7 @@ function createDom(fiber) {
 }
 
 /**
- * 使用 Fiber 节点更新对应的 DOM
+ * 使用 Fiber 更新对应的 DOM
  */
 function updateDom(dom, prevProps, nextProps) {
   // TODO:

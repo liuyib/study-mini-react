@@ -63,7 +63,7 @@ const isGone = (prev, next) => (key) => prev[key] && !next[key];
 const isNew = (prev, next) => (key) => prev[key] !== next[key];
 
 /**
- * 使用 Fiber 节点更新对应的 DOM
+ * 使用 Fiber 更新对应的 DOM
  */
 function updateDom(dom, prevProps, nextProps) {
   // 移除旧事件
