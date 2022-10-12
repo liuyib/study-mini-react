@@ -37,29 +37,26 @@ module.exports = {
     // Clean output dir before rebuild.
     __PRD__ && new CleanWebpackPlugin(),
     // Copy all assets from `public` dir to output dir.
-    __PRD__ &&
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: 'public/**/*',
-            to: '[name][ext]',
-            globOptions: {
-              ignore: ['**/index.html'],
-            },
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'public/**/*',
+          to: '[name][ext]',
+          globOptions: {
+            ignore: ['**/index.html'],
           },
-        ],
-      }),
+        },
+      ],
+    }),
     // Generates an `index.html` file with the <script> injected.
-    __PRD__ &&
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: path.resolve(process.cwd(), 'public/index.html'),
-      }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: path.resolve(process.cwd(), 'public/index.html'),
+    }),
     // Makes the public URL available as %PUBLIC_URL% in index.html,
     // e.g.: <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
-    __PRD__ &&
-      new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-        PUBLIC_URL: paths.publicUrlOrPath.slice(0, -1),
-      }),
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+      PUBLIC_URL: paths.publicUrlOrPath.slice(0, -1),
+    }),
   ].filter(Boolean),
 };
