@@ -2,6 +2,18 @@
  * 实现 updateDom(dom, prevProps, nextProps) 函数逻辑
  * 1. 移除旧属性，添加新属性（非事件属性）
  * 2. 处理事件属性
+ *
+ * Fiber 节点的数据结构如下：
+ * {
+ *   type: string;
+ *   props: Object;
+ *   dom: HTMLElement;
+ *   parent: Fiber;
+ *   child: Fiber;
+ *   sibling: Fiber;
+ *   alternate: Fiber;
+ *   effectTag: string;
+ * }
  */
 
 import { isNil } from '../utils/isType.js';

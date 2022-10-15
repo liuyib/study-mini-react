@@ -35,6 +35,16 @@
  * 3. 如果没有下一个兄弟，则向上查找“父亲的下一个兄弟”
  * 4. 如果父亲没有下一个兄弟，则以此类推，继续向上查找，直到找到 root
  * 5. 当找到 root 时，表明执行完了这次渲染时的所有任务
+ * 
+ * Fiber 节点的数据结构如下：
+ * {
+ *   type: string;
+ *   props: Object;
+ *   dom: HTMLElement;
+ *   parent: Fiber;
+ *   child: Fiber;
+ *   sibling: Fiber;
+ * }
  */
 
 function createElement(type, props, ...children) {
