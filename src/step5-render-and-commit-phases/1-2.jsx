@@ -132,8 +132,10 @@ window.requestIdleCallback(workLoop);
  * @param {Object} fiber          React Fiber
  * @param {string} fiber.type     Fiber 类型
  * @param {Object} fiber.props    Fiber 参数
- * @param {Fiber} fiber.parent    Fiber 父代
  * @param {HTMLElement} fiber.dom Fiber 对应的 DOM
+ * @param {Fiber} fiber.parent    Fiber 的父代
+ * @param {Fiber} fiber.child     Fiber 的第一个孩子
+ * @param {Fiber} fiber.sibling   Fiber 的兄弟
  * @returns 下一个需要处理的 Fiber 节点
  */
 function performNextUnitOfWork(fiber) {
@@ -153,8 +155,8 @@ function performNextUnitOfWork(fiber) {
     const newFiber = {
       type: element.type,
       props: element.props,
-      parent: fiber,
       dom: null,
+      parent: fiber,
     };
 
     // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
