@@ -77,7 +77,7 @@ function commitWork(fiber) {
 
   const domParent = fiber.parent.dom;
 
-  domParent.appendChild = fiber.dom;
+  domParent.appendChild(fiber.dom);
   commitWork(fiber.child);
   commitWork(fiber.sibling);
 }
