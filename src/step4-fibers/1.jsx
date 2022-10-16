@@ -38,12 +38,14 @@
  * 
  * Fiber 节点的数据结构如下：
  * {
- *   type: string;
- *   props: Object;
- *   dom: HTMLElement;
- *   parent: Fiber;
- *   child: Fiber;
- *   sibling: Fiber;
+ *   type?: string;
+ *   props?: Object;
+ *   dom?: HTMLElement;
+ *   parent?: Fiber;
+ *   child?: Fiber;
+ *   sibling?: Fiber;
+ *   alternate?: Fiber;
+ *   effectTag?: string;
  * }
  */
 
