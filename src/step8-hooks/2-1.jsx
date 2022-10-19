@@ -122,7 +122,7 @@ function commitRoot() {
   deletions.forEach(commitWork);
   // 提交被“添加、更新”的 Fiber
   commitWork(wipRoot.child);
-  currentRoot = wipRoot;
+  oldRoot = wipRoot;
   wipRoot = null;
 }
 
@@ -170,7 +170,7 @@ function render(element, container) {
       children: [element],
     },
     // 连接旧的 Fiber 节点
-    alternate: currentRoot,
+    alternate: oldRoot,
   };
   nextUnitOfWork = wipRoot;
   deletions = [];
@@ -178,7 +178,7 @@ function render(element, container) {
 
 let nextUnitOfWork = null;
 /** 最后已经提交到 DOM 的 Fiber 树 */
-let currentRoot = null;
+let oldRoot = null;
 /** 工作中的 Fiber 树 */
 let wipRoot = null;
 /** 待删除的旧 Fiber */
