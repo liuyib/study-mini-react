@@ -176,13 +176,13 @@ function performNextUnitOfWork(fiber) {
 
 /**
  * 协调“旧 Fiber”与“新元素”
- * @param {Fiber} wipFiber                      Fiber 节点
+ * @param {Fiber} fiber                         Fiber 节点
  * @param {DetailedReactHTMLElement[]} elements React.crateElement 的返回值数组
  * @returns
  */
-function reconcileChildren(wipFiber, elements) {
+function reconcileChildren(fiber, elements) {
   let index = 0;
-  let oldFiber = wipFiber.alternate?.child;
+  let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
 
   while (index < elements.length || !isNil(oldFiber)) {
@@ -197,7 +197,7 @@ function reconcileChildren(wipFiber, elements) {
 
     // 新创建的 Fiber 能成为“孩子”还是“兄弟”，取决于它是否是第一个后代
     if (index === 0) {
-      wipFiber.child = newFiber;
+      fiber.child = newFiber;
     } else {
       prevSibling.sibling = newFiber;
     }
