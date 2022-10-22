@@ -282,23 +282,26 @@ function updateFunctionComponent(fiber) {
  * @param {*} initial 默认值
  * @returns [*, Function]
  */
- function useState(initial) {
+function useState(initial) {
   const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
   const hook = {
     state: oldHook ? oldHook.state : initial,
     queue: [],
   };
 
-  const newStates = oldHook?.queue ?? [];
-  newStates.forEach((newState) => {
-    hook.state = newState;
+  const stateOrActions = oldHook?.queue ?? [];
+  stateOrActions.forEach((stateOrAction) => {
+    hook.state =
+      typeof stateOrAction === 'function'
+        ? stateOrAction(hook.state)
+        : stateOrAction;
   });
 
   wipFiber.hooks.push(hook);
   hookIndex++;
 
-  function setState(newState) {
-    hook.queue.push(newState);
+  function setState(stateOrAction) {
+    hook.queue.push(stateOrAction);
     wipRoot = {
       type: oldRoot.type,
       props: oldRoot.props,
