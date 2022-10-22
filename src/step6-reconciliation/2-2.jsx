@@ -198,15 +198,13 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber?.type === element?.type;
+    const sameType = oldFiber && element && oldFiber.type === element.type;
 
     if (sameType) {
       // TODO: update props
-    }
-    if (!sameType && element) {
+    } else if (element) {
       // TODO: create new node
-    }
-    if (!sameType && oldFiber) {
+    } else if (oldFiber) {
       // TODO: remove oldFiber's node
     }
 

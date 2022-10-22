@@ -204,7 +204,7 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber?.type === element?.type;
+    const sameType = oldFiber && element && oldFiber.type === element.type;
 
     if (sameType) {
       newFiber = {
@@ -216,8 +216,7 @@ function reconcileChildren(fiber, elements) {
         // 在后面 commit 阶段将会用到这个属性
         effectTag: 'UPDATE',
       };
-    }
-    if (!sameType && element) {
+    } else if (element) {
       newFiber = {
         type: element.type,
         props: element.props,
@@ -226,8 +225,7 @@ function reconcileChildren(fiber, elements) {
         alternate: null,
         effectTag: 'PLACEMENT',
       };
-    }
-    if (!sameType && oldFiber) {
+    } else if (oldFiber) {
       oldFiber.effectTag = 'DELETION';
       // 对于需要删除的旧 Fiber，我们不再把他连接到新 Fiber 上（新 Fiber 以 wipRoot 为根），
       // 当我们用 wipRoot 把 Fiber 树提交到 DOM 时，其上没有“旧 Fiber”，

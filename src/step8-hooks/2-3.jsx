@@ -116,7 +116,7 @@ function updateDom(dom, prevProps, nextProps) {
  * 使用 Fiber 递归删除所有子代 DOM
  */
 function deleteDom(fiber, domParent) {
-  if (domParent) {
+  if (fiber.dom) {
     domParent.removeChild(fiber.dom);
   } else {
     deleteDom(fiber.child, domParent);
@@ -154,12 +154,15 @@ function commitWork(fiber) {
 
   if (fiber.effectTag === 'PLACEMENT' && !isNil(fiber.dom)) {
     domParent.appendChild(fiber.dom);
-  }
-  if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
+  } else if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
-  }
-  if (fiber.effectTag === 'DELETION' && !isNil(fiber.dom)) {
+  } else if (fiber.effectTag === 'DELETION') {
     deleteDom(fiber, domParent);
+
+    // 递归删除 Fiber 对应的所有后代 DOM 后，需要停止 commitWork 函数的递归，
+    // 否则删除的 DOM 又会被重新添加到页面上，因为被标记 "DELETION" 的 Fiber，
+    // 其后代 Fiber 不一定也被标记了 "DELETION"，因此不能再继续递归
+    return;
   }
 
   commitWork(fiber.child);
@@ -279,7 +282,7 @@ function updateFunctionComponent(fiber) {
  * @param {*} initial 默认值
  * @returns [*, Function]
  */
-function useState(initial) {
+ function useState(initial) {
   const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
   const hook = {
     state: oldHook ? oldHook.state : initial,
@@ -345,7 +348,7 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber?.type === element?.type;
+    const sameType = oldFiber && element && oldFiber.type === element.type;
 
     if (sameType) {
       newFiber = {
@@ -357,8 +360,7 @@ function reconcileChildren(fiber, elements) {
         // 在后面 commit 阶段将会用到这个属性
         effectTag: 'UPDATE',
       };
-    }
-    if (!sameType && element) {
+    } else if (element) {
       newFiber = {
         type: element.type,
         props: element.props,
@@ -367,8 +369,7 @@ function reconcileChildren(fiber, elements) {
         alternate: null,
         effectTag: 'PLACEMENT',
       };
-    }
-    if (!sameType && oldFiber) {
+    } else if (oldFiber) {
       oldFiber.effectTag = 'DELETION';
       // 对于需要删除的旧 Fiber，我们不再把他连接到新 Fiber 上（新 Fiber 以 wipRoot 为根），
       // 当我们用 wipRoot 把 Fiber 树提交到 DOM 时，其上没有“旧 Fiber”，
@@ -399,14 +400,27 @@ const Didact = {
 };
 
 /** @jsx Didact.createElement */
+
+function Test() {
+  return <div>test</div>;
+}
+
 function Counter() {
   const [count, setCount] = Didact.useState(0);
+  const [visible, setVisible] = Didact.useState(true);
 
   const onAddClick = () => {
     setCount(count + 1);
   };
 
-  return <h1 onClick={onAddClick}>Count: {count}</h1>;
+  return (
+    <div>
+      <h1 onClick={onAddClick}>Count: {count}</h1>
+
+      <button onClick={() => setVisible(!visible)}>toggle</button>
+      {visible ? <Test /> : null}
+    </div>
+  );
 }
 
 const element = <Counter />;
