@@ -26,17 +26,17 @@ function createTextElement(text) {
   };
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
 };
 
-const element = Didact.createElement(
+const element = MiniReact.createElement(
   'div',
   {
     id: 'foo',
   },
-  Didact.createElement('a', null, 'bar'),
-  Didact.createElement('b'),
+  MiniReact.createElement('a', null, 'bar'),
+  MiniReact.createElement('b'),
 );
 
 const container = document.getElementById('root');

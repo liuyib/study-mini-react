@@ -291,12 +291,12 @@ function reconcileChildren(fiber, elements) {
   }
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
   render,
 };
 
-/** @jsx Didact.createElement */
+/** @jsx MiniReact.createElement */
 function App(props) {
   // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
@@ -305,4 +305,4 @@ function App(props) {
 const element = <App name="foo" />;
 const container = document.getElementById('root');
 
-Didact.render(element, container);
+MiniReact.render(element, container);

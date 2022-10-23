@@ -347,21 +347,21 @@ function reconcileChildren(fiber, elements) {
   }
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
   render,
   useState,
 };
 
-/** @jsx Didact.createElement */
+/** @jsx MiniReact.createElement */
 
 function Test() {
   return <div>test</div>;
 }
 
 function Counter() {
-  const [count, setCount] = Didact.useState(0);
-  const [visible, setVisible] = Didact.useState(true);
+  const [count, setCount] = MiniReact.useState(0);
+  const [visible, setVisible] = MiniReact.useState(true);
 
   const onAddClick = () => {
     setCount(count + 1);
@@ -380,4 +380,4 @@ function Counter() {
 const element = <Counter />;
 const container = document.getElementById('root');
 
-Didact.render(element, container);
+MiniReact.render(element, container);

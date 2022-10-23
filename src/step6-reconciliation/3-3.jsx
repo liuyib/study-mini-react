@@ -304,7 +304,7 @@ function reconcileChildren(fiber, elements) {
   }
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
   render,
 };
@@ -316,7 +316,7 @@ const updateValue = (e) => {
 };
 
 const rerender = (value) => {
-  /** @jsx Didact.createElement */
+  /** @jsx MiniReact.createElement */
   const element = (
     <div>
       <input onInput={updateValue} value={value} />
@@ -324,7 +324,7 @@ const rerender = (value) => {
     </div>
   );
 
-  Didact.render(element, container);
+  MiniReact.render(element, container);
 };
 
 rerender('World');

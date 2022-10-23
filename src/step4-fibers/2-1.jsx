@@ -78,12 +78,12 @@ function performNextUnitOfWork(fiber) {
   // TODO: return next unit of work
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
   render,
 };
 
-/** @jsx Didact.createElement */
+/** @jsx MiniReact.createElement */
 const element = (
   <div id="foo">
     <a>bar</a>
@@ -93,4 +93,4 @@ const element = (
 
 const container = document.getElementById('root');
 
-Didact.render(element, container);
+MiniReact.render(element, container);

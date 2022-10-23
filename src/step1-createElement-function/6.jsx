@@ -26,11 +26,11 @@ function createTextElement(text) {
   };
 }
 
-const Didact = {
+const MiniReact = {
   createElement,
 };
 
-/** @jsx Didact.createElement */
+/** @jsx MiniReact.createElement */
 const element = (
   <div id="foo">
     <a>bar</a>
