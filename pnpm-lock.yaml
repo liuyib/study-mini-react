@@ -11,6 +11,7 @@ specifiers:
   eslint: ^8.24.0
   eslint-plugin-react: ^7.31.8
   html-webpack-plugin: ^5.5.0
+  prettier: ^2.7.1
   react: ^16.8.0
   react-dev-utils: ^12.0.1
   react-dom: ^16.8.0
@@ -33,6 +34,7 @@ devDependencies:
   eslint: 8.24.0
   eslint-plugin-react: 7.31.8_eslint@8.24.0
   html-webpack-plugin: 5.5.0_webpack@5.74.0
+  prettier: 2.7.1
   react-dev-utils: 12.0.1_j6jdqc6yj4dakyrvwvnzxinrfq
   webpack: 5.74.0_webpack-cli@4.10.0
   webpack-cli: 4.10.0_vnmgq7jx5zjkzolvtfp7mdf5ri
@@ -4077,6 +4079,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /pretty-error/4.0.0:
