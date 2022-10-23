@@ -54,6 +54,7 @@ const MiniReact = {
 };
 
 /** @jsx MiniReact.createElement */
+
 const element = (
   <div id="foo">
     <a>bar</a>

@@ -134,14 +134,14 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const domParent = fiber.parent.dom;
+  const fiberParentDom = fiber.parent.dom;
 
   if (fiber.effectTag === 'PLACEMENT' && !isNil(fiber.dom)) {
-    domParent.appendChild(fiber.dom);
+    fiberParentDom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION' && !isNil(fiber.dom)) {
-    domParent.removeChild(fiber.dom);
+    fiberParentDom.removeChild(fiber.dom);
   }
 
   commitWork(fiber.child);
@@ -309,6 +309,8 @@ const MiniReact = {
   render,
 };
 
+/** @jsx MiniReact.createElement */
+
 const container = document.getElementById('root');
 
 const updateValue = (e) => {
@@ -316,7 +318,6 @@ const updateValue = (e) => {
 };
 
 const rerender = (value) => {
-  /** @jsx MiniReact.createElement */
   const element = (
     <div>
       <input onInput={updateValue} value={value} />

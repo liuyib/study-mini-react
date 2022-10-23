@@ -103,11 +103,11 @@ function updateDom(dom, oldProps, newProps) {
 /**
  * 使用 Fiber 递归删除所有子代 DOM
  */
-function deleteDom(fiber, domParent) {
+function deleteDom(fiber, fiberParentDom) {
   if (fiber.dom) {
-    domParent.removeChild(fiber.dom);
+    fiberParentDom.removeChild(fiber.dom);
   } else {
-    deleteDom(fiber.child, domParent);
+    deleteDom(fiber.child, fiberParentDom);
   }
 }
 
@@ -131,21 +131,21 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  let domParentFiber = fiber.parent;
+  let fiberParent = fiber.parent;
 
   // 需要用到 Fiber 的 parent 时，一直向上找，直到找到具有 DOM 的 Fiber
-  while (!domParentFiber.dom) {
-    domParentFiber = domParentFiber.parent;
+  while (!fiberParent.dom) {
+    fiberParent = fiberParent.parent;
   }
 
-  const domParent = domParentFiber.dom;
+  const fiberParentDom = fiberParent.dom;
 
   if (fiber.effectTag === 'PLACEMENT' && !isNil(fiber.dom)) {
-    domParent.appendChild(fiber.dom);
+    fiberParentDom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION') {
-    deleteDom(fiber, domParent);
+    deleteDom(fiber, fiberParentDom);
 
     // 递归删除 Fiber 对应的所有后代 DOM 后，需要停止 commitWork 函数的递归，
     // 否则删除的 DOM 又会被重新添加到页面上，因为被标记 "DELETION" 的 Fiber，

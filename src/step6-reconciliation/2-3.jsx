@@ -84,9 +84,9 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const domParent = fiber.parent.dom;
+  const fiberParentDom = fiber.parent.dom;
 
-  domParent.appendChild(fiber.dom);
+  fiberParentDom.appendChild(fiber.dom);
   commitWork(fiber.child);
   commitWork(fiber.sibling);
 }
@@ -253,6 +253,7 @@ const MiniReact = {
 };
 
 /** @jsx MiniReact.createElement */
+
 const element = (
   <div id="foo">
     <a>bar</a>
