@@ -1,5 +1,5 @@
 /**
- * 实现 updateDom(dom, prevProps, nextProps) 函数逻辑
+ * 实现 updateDom(dom, oldProps, newProps) 函数逻辑
  * 1. 移除旧属性，添加新属性（非事件属性）
  */
 
@@ -17,9 +17,9 @@ function createElement(type, props, ...children) {
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child),
-      ),
+      children: children.map((child) => {
+        return typeof child === 'object' ? child : createTextElement(child);
+      }),
     },
   };
 }
@@ -54,27 +54,27 @@ function createDom(fiber) {
 }
 
 const isProperty = (key) => key !== 'children';
-const isGone = (prev, next) => (key) => prev[key] && !next[key];
+const isOld = (prev, next) => (key) => prev[key] && !next[key];
 // “next 中有新的键”或“prev 和 next 中相同键的值不同”
 const isNew = (prev, next) => (key) => prev[key] !== next[key];
 
 /**
  * 使用 Fiber 更新对应的 DOM
  */
-function updateDom(dom, prevProps, nextProps) {
+function updateDom(dom, oldProps, newProps) {
   // 移除旧属性
-  Object.keys(prevProps)
+  Object.keys(oldProps)
     .filter(isProperty)
-    .filter(isGone(prevProps, nextProps))
+    .filter(isOld(oldProps, newProps))
     .forEach((name) => {
       dom[name] = '';
     });
   // 添加新属性
-  Object.keys(nextProps)
+  Object.keys(newProps)
     .filter(isProperty)
-    .filter(isNew(prevProps, nextProps))
+    .filter(isNew(oldProps, newProps))
     .forEach((name) => {
-      dom[name] = nextProps[name];
+      dom[name] = newProps[name];
     });
 }
 
@@ -119,7 +119,7 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  wipRoot = {
+  nextUnitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -127,7 +127,7 @@ function render(element, container) {
     // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
-  nextUnitOfWork = wipRoot;
+  wipRoot = nextUnitOfWork;
   deletions = [];
 }
 
@@ -192,14 +192,12 @@ function performNextUnitOfWork(fiber) {
     return fiber.child;
   }
 
-  let nextFiber = fiber;
-
-  while (nextFiber) {
-    if (nextFiber.sibling) {
-      return nextFiber.sibling;
+  while (fiber) {
+    if (fiber.sibling) {
+      return fiber.sibling;
     }
 
-    nextFiber = nextFiber.parent;
+    fiber = fiber.parent;
   }
 }
 
@@ -225,9 +223,9 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber && element && oldFiber.type === element.type;
+    const isSameType = oldFiber && element && oldFiber.type === element.type;
 
-    if (sameType) {
+    if (isSameType) {
       newFiber = {
         type: element.type,
         props: element.props,

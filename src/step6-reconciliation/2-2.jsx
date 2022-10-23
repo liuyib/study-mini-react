@@ -19,9 +19,9 @@ function createElement(type, props, ...children) {
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child),
-      ),
+      children: children.map((child) => {
+        return typeof child === 'object' ? child : createTextElement(child);
+      }),
     },
   };
 }
@@ -95,7 +95,7 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  wipRoot = {
+  nextUnitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -103,7 +103,7 @@ function render(element, container) {
     // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
-  nextUnitOfWork = wipRoot;
+  wipRoot = nextUnitOfWork;
 }
 
 let nextUnitOfWork = null;
@@ -165,14 +165,12 @@ function performNextUnitOfWork(fiber) {
     return fiber.child;
   }
 
-  let nextFiber = fiber;
-
-  while (nextFiber) {
-    if (nextFiber.sibling) {
-      return nextFiber.sibling;
+  while (fiber) {
+    if (fiber.sibling) {
+      return fiber.sibling;
     }
 
-    nextFiber = nextFiber.parent;
+    fiber = fiber.parent;
   }
 }
 
@@ -198,9 +196,9 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber && element && oldFiber.type === element.type;
+    const isSameType = oldFiber && element && oldFiber.type === element.type;
 
-    if (sameType) {
+    if (isSameType) {
       // TODO: update props
     } else if (element) {
       // TODO: create new node

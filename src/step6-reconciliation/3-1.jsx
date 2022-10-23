@@ -7,7 +7,7 @@
  * 3. DELETION  - 删除
  *
  * 对于“添加”和“删除”操作较为简单，直接 appendChild、removeChild，
- * 对于“更新”逻辑，我们借助 updateDom(dom, prevProps, nextProps) 函数实现
+ * 对于“更新”逻辑，我们借助 updateDom(dom, oldProps, newProps) 函数实现
  */
 
 import { isNil } from '../utils/isType.js';
@@ -24,9 +24,9 @@ function createElement(type, props, ...children) {
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child),
-      ),
+      children: children.map((child) => {
+        return typeof child === 'object' ? child : createTextElement(child);
+      }),
     },
   };
 }
@@ -72,7 +72,7 @@ function createDom(fiber) {
 /**
  * 使用 Fiber 更新对应的 DOM
  */
-function updateDom(dom, prevProps, nextProps) {
+function updateDom(dom, oldProps, newProps) {
   // TODO:
 }
 
@@ -117,7 +117,7 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  wipRoot = {
+  nextUnitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -125,7 +125,7 @@ function render(element, container) {
     // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
-  nextUnitOfWork = wipRoot;
+  wipRoot = nextUnitOfWork;
   deletions = [];
 }
 
@@ -190,14 +190,12 @@ function performNextUnitOfWork(fiber) {
     return fiber.child;
   }
 
-  let nextFiber = fiber;
-
-  while (nextFiber) {
-    if (nextFiber.sibling) {
-      return nextFiber.sibling;
+  while (fiber) {
+    if (fiber.sibling) {
+      return fiber.sibling;
     }
 
-    nextFiber = nextFiber.parent;
+    fiber = fiber.parent;
   }
 }
 
@@ -223,9 +221,9 @@ function reconcileChildren(fiber, elements) {
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
-    const sameType = oldFiber && element && oldFiber.type === element.type;
+    const isSameType = oldFiber && element && oldFiber.type === element.type;
 
-    if (sameType) {
+    if (isSameType) {
       newFiber = {
         type: element.type,
         props: element.props,

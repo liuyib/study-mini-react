@@ -14,9 +14,9 @@ function createElement(type, props, ...children) {
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child),
-      ),
+      children: children.map((child) => {
+        return typeof child === 'object' ? child : createTextElement(child);
+      }),
     },
   };
 }
@@ -89,13 +89,13 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  wipRoot = {
+  nextUnitOfWork = {
     dom: container,
     props: {
       children: [element],
     },
   };
-  nextUnitOfWork = wipRoot;
+  wipRoot = nextUnitOfWork;
 }
 
 let nextUnitOfWork = null;
@@ -175,14 +175,12 @@ function performNextUnitOfWork(fiber) {
     return fiber.child;
   }
 
-  let nextFiber = fiber;
-
-  while (nextFiber) {
-    if (nextFiber.sibling) {
-      return nextFiber.sibling;
+  while (fiber) {
+    if (fiber.sibling) {
+      return fiber.sibling;
     }
 
-    nextFiber = nextFiber.parent;
+    fiber = fiber.parent;
   }
 }
 
