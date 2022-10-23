@@ -3,7 +3,6 @@
  * 1. 首先修改 DEMO 例子
  */
 
-import PropTypes from 'prop-types';
 import { isNil } from '../utils/isType.js';
 
 /**
@@ -299,13 +298,9 @@ const Didact = {
 
 /** @jsx Didact.createElement */
 function App(props) {
+  // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
 }
-
-// https://reactjs.org/docs/typechecking-with-proptypes.html
-App.propTypes = {
-  name: PropTypes.string,
-};
 
 const element = <App name="foo" />;
 const container = document.getElementById('root');

@@ -7,7 +7,6 @@
  * 3. 为了支持函数组件，添加 updateFunctionComponent 函数，用于更新函数组件到 DOM
  */
 
-import PropTypes from 'prop-types';
 import { isNil } from '../utils/isType.js';
 
 /**
@@ -325,13 +324,9 @@ const Didact = {
 
 /** @jsx Didact.createElement */
 function App(props) {
+  // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
 }
-
-// https://reactjs.org/docs/typechecking-with-proptypes.html
-App.propTypes = {
-  name: PropTypes.string,
-};
 
 const element = <App name="foo" />;
 const container = document.getElementById('root');
