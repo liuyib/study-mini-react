@@ -176,7 +176,6 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  console.log(`render ~ element, container`, element, container);
   nextUnitOfWork = {
     dom: container,
     props: {
