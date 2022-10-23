@@ -5,8 +5,6 @@
  * 3. 如果“type 不同”并且“存在旧的 Fiber”，则需要删除旧的 DOM 节点
  */
 
-import { isNil } from '../utils/isType.js';
-
 /**
  * 创建“React 元素”
  * @param {string} type                   元素类型
@@ -185,7 +183,7 @@ function reconcileChildren(fiber, elements) {
   let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || !isNil(oldFiber)) {
+  while (index < elements.length || oldFiber) {
     const element = elements[index];
     let newFiber = null;
 

@@ -5,8 +5,6 @@
  *    因此需要使用数组单独保存“被删除的 Fiber”，以便后续从 DOM 中真正删除
  */
 
-import { isNil } from '../utils/isType.js';
-
 /**
  * 创建“React 元素”
  * @param {string} type                   元素类型
@@ -191,7 +189,7 @@ function reconcileChildren(fiber, elements) {
   let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || !isNil(oldFiber)) {
+  while (index < elements.length || oldFiber) {
     const element = elements[index];
     let newFiber = null;
 

@@ -3,8 +3,6 @@
  * 1. 首先修改 DEMO 例子
  */
 
-import { isNil } from '../utils/isType.js';
-
 /**
  * 创建“React 元素”
  * @param {string} type                   元素类型
@@ -123,11 +121,11 @@ function commitWork(fiber) {
 
   const fiberParentDom = fiber.parent.dom;
 
-  if (fiber.effectTag === 'PLACEMENT' && !isNil(fiber.dom)) {
+  if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
     fiberParentDom.appendChild(fiber.dom);
-  } else if (fiber.effectTag === 'UPDATE' && !isNil(fiber.dom)) {
+  } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
-  } else if (fiber.effectTag === 'DELETION' && !isNil(fiber.dom)) {
+  } else if (fiber.effectTag === 'DELETION' && fiber.dom) {
     fiberParentDom.removeChild(fiber.dom);
   }
 
@@ -235,7 +233,7 @@ function reconcileChildren(fiber, elements) {
   let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || !isNil(oldFiber)) {
+  while (index < elements.length || oldFiber) {
     const element = elements[index];
     let newFiber = null;
 
