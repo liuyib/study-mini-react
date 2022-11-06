@@ -53,7 +53,7 @@
  *    a. 检查是否有一个旧的 Hook（wipRoot.alternate.hooks[hookIndex] 有值，则表明有旧 Hook）
  *    b. 如果有旧 Hook，将其状态复制给新 Hook；否则，用初始值给新 Hook 状态赋值
  *    c. 触发 setState 函数时，其内部使用队列，将接收新状态保存到全局的 wipFiber 上
- *    d. 重置 wipRoot 和 nextUnitOfWork 以触发新的渲染
+ *    d. 重置 wipRoot 和 unitOfWork 以触发新的渲染
  *    e. 重新渲染时，同步骤「a」检查是否有旧的 Hook
  *    f. 如果有旧 Hook（oldHook），其 queue 属性里保存的就是“上一次渲染中，使用 setState 更新的状态值”
  *    g. 遍历 oldHook.queue，用该队列里的状态值依次赋值给"新 Hook 的状态

@@ -162,7 +162,7 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  nextUnitOfWork = {
+  unitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -170,11 +170,11 @@ function render(element, container) {
     // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
-  wipRoot = nextUnitOfWork;
+  wipRoot = unitOfWork;
   deletions = [];
 }
 
-let nextUnitOfWork = null;
+let unitOfWork = null;
 /** 最后已经提交到 DOM 的 Fiber 树 */
 let oldRoot = null;
 /** 工作中的 Fiber 树 */
@@ -192,14 +192,14 @@ let deletions = null;
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork);
+  while (unitOfWork && !shouldYield) {
+    unitOfWork = performUnitOfWork(unitOfWork);
     // 1: 1ms，同 requestIdleCallback 回调函数接收的参数中 timeRemaining() 返回值的单位
     shouldYield = idleDeadline.timeRemaining() < 1;
   }
 
   // 处理完了所有工作，将 Fiber 统一提交到 DOM
-  if (!nextUnitOfWork && wipRoot) {
+  if (!unitOfWork && wipRoot) {
     commitRoot();
   }
 
@@ -219,7 +219,7 @@ window.requestIdleCallback(workLoop);
  * @param {Fiber} fiber.sibling   Fiber 的兄弟
  * @returns 下一个需要处理的 Fiber 节点
  */
-function performNextUnitOfWork(fiber) {
+function performUnitOfWork(fiber) {
   const isFunctionComponent = fiber.type instanceof Function;
 
   if (isFunctionComponent) {

@@ -1,5 +1,5 @@
 /**
- * 实现 performNextUnitOfWork 函数逻辑，用于将 Fiber 转化成真实的 DOM。具体过程如下：
+ * 实现 performUnitOfWork 函数逻辑，用于将 Fiber 转化成真实的 DOM。具体过程如下：
  * 1. 使用 Fiber 创建一个新的节点，并添加到 DOM 中
  * 2. 对于每个孩子，都创建一个 Fiber。新创建的 Fiber 能成为“孩子”还是“兄弟”，
  *    取决于它是否是第一个后代
@@ -70,7 +70,7 @@ function createDom(fiber) {
  * @returns
  */
 function render(element, container) {
-  nextUnitOfWork = {
+  unitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -78,7 +78,7 @@ function render(element, container) {
   };
 }
 
-let nextUnitOfWork = null;
+let unitOfWork = null;
 
 /**
  * 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
@@ -90,8 +90,8 @@ let nextUnitOfWork = null;
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork);
+  while (unitOfWork && !shouldYield) {
+    unitOfWork = performUnitOfWork(unitOfWork);
     // 1: 1ms，同 requestIdleCallback 回调函数接收的参数中 timeRemaining() 返回值的单位
     shouldYield = idleDeadline.timeRemaining() < 1;
   }
@@ -112,7 +112,7 @@ window.requestIdleCallback(workLoop);
  * @param {Fiber} fiber.sibling   Fiber 的兄弟
  * @returns 下一个需要处理的 Fiber 节点
  */
-function performNextUnitOfWork(fiber) {
+function performUnitOfWork(fiber) {
   // 使用 Fiber 创建一个新的节点
   if (!fiber.dom) {
     fiber.dom = createDom(fiber);

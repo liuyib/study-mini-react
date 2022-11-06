@@ -94,14 +94,14 @@ function render(element, container) {
   container.appendChild(dom);
 }
 
-let nextUnitOfWork = null;
+let unitOfWork = null;
 
 // 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork);
+  while (unitOfWork && !shouldYield) {
+    unitOfWork = performUnitOfWork(unitOfWork);
     // 1: 1ms，同 requestIdleCallback 回调函数接收的参数中 timeRemaining() 返回值的单位
     shouldYield = idleDeadline.timeRemaining() < 1;
   }
@@ -112,7 +112,7 @@ function workLoop(idleDeadline) {
 window.requestIdleCallback(workLoop);
 
 // 在浏览器空闲时间需要执行的任务
-function performNextUnitOfWork(nextUnitOfWork) {
+function performUnitOfWork(unitOfWork) {
   // TODO: ...
 }
 

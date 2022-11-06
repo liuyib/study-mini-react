@@ -7,7 +7,7 @@
  *    a. 检查是否有一个旧的 Hook（wipRoot.alternate.hooks[hookIndex] 有值，则表明有旧 Hook）
  *    b. 如果有旧 Hook，将其状态复制给新 Hook；否则，用初始值给新 Hook 状态赋值
  *    c. 触发 setState 函数时，其内部使用队列，将接收新状态保存到全局的 wipFiber 上
- *    d. 重置 wipRoot 和 nextUnitOfWork 以触发新的渲染
+ *    d. 重置 wipRoot 和 unitOfWork 以触发新的渲染
  *    e. 重新渲染时，同步骤「a」检查是否有旧的 Hook
  *    f. 如果有旧 Hook（oldHook），其 queue 属性里保存的就是“上一次渲染中，使用 setState 更新的状态值”
  *    g. 遍历 oldHook.queue，用该队列里的状态值依次赋值给"新 Hook 的状态
@@ -174,7 +174,7 @@ function commitWork(fiber) {
  * @returns
  */
 function render(element, container) {
-  nextUnitOfWork = {
+  unitOfWork = {
     dom: container,
     props: {
       children: [element],
@@ -182,11 +182,11 @@ function render(element, container) {
     // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
-  wipRoot = nextUnitOfWork;
+  wipRoot = unitOfWork;
   deletions = [];
 }
 
-let nextUnitOfWork = null;
+let unitOfWork = null;
 /** 最后已经提交到 DOM 的 Fiber 树 */
 let oldRoot = null;
 /** 工作中的 Fiber 树 */
@@ -204,14 +204,14 @@ let deletions = null;
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork);
+  while (unitOfWork && !shouldYield) {
+    unitOfWork = performUnitOfWork(unitOfWork);
     // 1: 1ms，同 requestIdleCallback 回调函数接收的参数中 timeRemaining() 返回值的单位
     shouldYield = idleDeadline.timeRemaining() < 1;
   }
 
   // 处理完了所有工作，将 Fiber 统一提交到 DOM
-  if (!nextUnitOfWork && wipRoot) {
+  if (!unitOfWork && wipRoot) {
     commitRoot();
   }
 
@@ -231,7 +231,7 @@ window.requestIdleCallback(workLoop);
  * @param {Fiber} fiber.sibling   Fiber 的兄弟
  * @returns 下一个需要处理的 Fiber 节点
  */
-function performNextUnitOfWork(fiber) {
+function performUnitOfWork(fiber) {
   const isFunctionComponent = fiber.type instanceof Function;
 
   if (isFunctionComponent) {
@@ -298,12 +298,12 @@ function useState(initial) {
 
   function setState(stateOrAction) {
     hook.queue.push(stateOrAction);
-    nextUnitOfWork = {
+    unitOfWork = {
       type: oldRoot.type,
       props: oldRoot.props,
       alternate: oldRoot,
     };
-    wipRoot = nextUnitOfWork;
+    wipRoot = unitOfWork;
     deletions = [];
   }
 
