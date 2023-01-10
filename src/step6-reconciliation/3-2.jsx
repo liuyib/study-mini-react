@@ -217,7 +217,7 @@ function reconcileChildren(fiber, elements) {
     // 对比“旧 Fiber”与“新元素”，步骤如下：
     // 1. 如果 type 一致，证明 DOM 节点不需要变，只更新参数
     // 2. 如果“type 不同”并且“新元素存在”，则需要创建新的 DOM 节点
-    // 3. 如果“type 不同”并且“存在旧的 Fiber”，则需要删除旧的 DOM 节点
+    // 3. 如果“type 不同”、"新元素不存在"并且“存在旧的 Fiber”，则需要删除旧的 DOM 节点
     //
     // 注：React 在这里会用 key 来对比，以判断“节点在元素数组中换了位置”
 
