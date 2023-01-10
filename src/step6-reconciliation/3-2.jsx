@@ -48,6 +48,8 @@ function createDom(fiber) {
       ? document.createTextNode('')
       : document.createElement(fiber.type);
 
+  updateDom(dom, {}, fiber.props);
+
   return dom;
 }
 
