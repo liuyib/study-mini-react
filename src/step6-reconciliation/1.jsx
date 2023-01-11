@@ -105,10 +105,10 @@ function render(element, container) {
 }
 
 let unitOfWork = null;
-/** 最后已经提交到 DOM 的 Fiber 树 */
-let oldRoot = null;
 /** 工作中的 Fiber 树 */
 let wipRoot = null;
+/** 最后已经提交到 DOM 的 Fiber 树 */
+let oldRoot = null;
 
 /**
  * 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
@@ -155,12 +155,10 @@ function performUnitOfWork(fiber) {
 
   // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;
-  let index = 0;
   let prevSibling = null;
 
-  while (index < elements.length) {
+  for (let index = 0; index < elements.length; index++) {
     const element = elements[index];
-
     const newFiber = {
       type: element.type,
       props: element.props,
@@ -176,7 +174,6 @@ function performUnitOfWork(fiber) {
     }
 
     prevSibling = newFiber;
-    index++;
   }
 
   // 搜索 Fiber 树（顺序依次是：孩子、兄弟、父兄弟），返回第一个找到的 Fiber 节点

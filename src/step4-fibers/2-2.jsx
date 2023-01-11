@@ -124,12 +124,10 @@ function performUnitOfWork(fiber) {
 
   // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;
-  let index = 0;
   let prevSibling = null;
 
-  while (index < elements.length) {
+  for (let index = 0; index < elements.length; index++) {
     const element = elements[index];
-
     const newFiber = {
       type: element.type,
       props: element.props,
@@ -145,7 +143,6 @@ function performUnitOfWork(fiber) {
     }
 
     prevSibling = newFiber;
-    index++;
   }
 
   // 搜索 Fiber 树（顺序依次是：孩子、兄弟、父兄弟），返回第一个找到的 Fiber 节点

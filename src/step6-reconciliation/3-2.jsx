@@ -132,10 +132,10 @@ function render(element, container) {
 }
 
 let unitOfWork = null;
-/** 最后已经提交到 DOM 的 Fiber 树 */
-let oldRoot = null;
 /** 工作中的 Fiber 树 */
 let wipRoot = null;
+/** 最后已经提交到 DOM 的 Fiber 树 */
+let oldRoot = null;
 /** 待删除的旧 Fiber */
 let deletions = null;
 
@@ -208,11 +208,10 @@ function performUnitOfWork(fiber) {
  * @returns
  */
 function reconcileChildren(fiber, elements) {
-  let index = 0;
   let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
 
-  while (index < elements.length || oldFiber) {
+  for (let index = 0; index < elements.length || oldFiber; index++) {
     const element = elements[index];
     let newFiber = null;
 
@@ -264,7 +263,6 @@ function reconcileChildren(fiber, elements) {
     }
 
     prevSibling = newFiber;
-    index++;
   }
 }
 
