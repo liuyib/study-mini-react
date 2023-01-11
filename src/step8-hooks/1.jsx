@@ -220,7 +220,7 @@ window.requestIdleCallback(workLoop);
  * @returns 下一个需要处理的 Fiber 节点
  */
 function performUnitOfWork(fiber) {
-  const isFunctionComponent = fiber.type instanceof Function;
+  const isFunctionComponent = typeof fiber.type === 'function';
 
   if (isFunctionComponent) {
     updateFunctionComponent(fiber);
