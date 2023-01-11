@@ -4,8 +4,8 @@
  * 2. 在 Fiber 上添加一个 hooks 属性，用于记录一个组件中多个 Hooks 的索引，
  *    以支持在同一个组件中多次调用 Hooks
  * 3. 在函数组件中调用 Hooks 时，做如下处理：
- *    a. 检查是否有一个旧的 Hook（fiber.alternate.hooks[hookIndex] 有值，则表明有旧 Hook）
- *    b. 如果有旧 Hook，将其状态复制给新 Hook；否则，用初始值给新 Hook 状态赋值
+ *    a. 检查是否有一个旧的 Hook 对象 `fiber.alternate.hooks[hookIndex]`，有值则表明有旧 Hook 对象
+ *    b. 如果有旧 Hook 对象，将其 state 赋值给新 Hook 对象作初值；否则，用默认值作初值
  *    c. 返回新 Hook
  */
 

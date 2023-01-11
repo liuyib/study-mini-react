@@ -4,14 +4,15 @@
  * 2. 在 Fiber 上添加一个 hooks 属性，用于记录一个组件中多个 Hooks 的索引，
  *    以支持在同一个组件中多次调用 Hooks
  * 3. 在函数组件中调用 Hooks 时，做如下处理：
- *    a. 检查是否有一个旧的 Hook（wipRoot.alternate.hooks[hookIndex] 有值，则表明有旧 Hook）
- *    b. 如果有旧 Hook，将其状态复制给新 Hook；否则，用初始值给新 Hook 状态赋值
- *    c. 触发 setState 函数时，其内部使用队列，将接收新状态保存到全局的 wipFiber 上
- *    d. 重置 wipRoot 和 unitOfWork 以触发新的渲染
- *    e. 重新渲染时，同步骤「a」检查是否有旧的 Hook
- *    f. 如果有旧 Hook（oldHook），其 queue 属性里保存的就是“上一次渲染中，使用 setState 更新的状态值”
- *    g. 遍历 oldHook.queue，用该队列里的状态值依次赋值给"新 Hook 的状态
- *    c. 返回“新 Hook 的状态”和“setState 函数”
+ *    a. 检查是否有一个旧的 Hook 对象 `fiber.alternate.hooks[hookIndex]`，有值则表明有旧 Hook 对象
+ *    b. 如果有旧 Hook 对象，将其 state 赋值给新 Hook 对象作初值；否则，用默认值作初值
+ *    c. state 更新时，会使用队列（队列保存在 Hook 对象上）来记录一系列新的 state 值
+ *    d. 遍历旧 Hook 对象上的 state 队列，用队列上的值依次更新“新 Hook 对象”的 state
+ *    e. 组装 setState 函数：
+ *       - 接收的参数（新 state）入队
+ *       - 重置 unitOfWork, wipRoot 以触发重新更新
+ *       - 重置 deletions（上次更新中被删除的 fiber）
+ *    f. 返回 `[新的 state, 新的 setState]`
  */
 
 /**
