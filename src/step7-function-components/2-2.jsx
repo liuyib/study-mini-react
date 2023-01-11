@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 /**
  * 完善 updateFunctionComponent 内部逻辑，实现函数组件的更新
  */
@@ -321,7 +323,6 @@ const MiniReact = {
 /** @jsx MiniReact.createElement */
 
 function App(props) {
-  // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
 }
 

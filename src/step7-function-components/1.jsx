@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 /**
  * 支持函数组件
  * 1. 首先修改 DEMO 例子
@@ -297,7 +299,6 @@ const MiniReact = {
 /** @jsx MiniReact.createElement */
 
 function App(props) {
-  // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
 }
 

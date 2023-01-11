@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 /**
  * 由于函数组件的 Fiber 没有对应 DOM，因此 commit 阶段需要特殊处理。具体如下：
  * 1. 如果要用 DOM 的 parent，需要沿着 Fiber 一直向上找，直到找到具有 DOM 的 Fiber
@@ -346,7 +348,6 @@ const MiniReact = {
 /** @jsx MiniReact.createElement */
 
 function App(props) {
-  // eslint-disable-next-line react/prop-types
   return <h1>Hi {props.name}</h1>;
 }
 
