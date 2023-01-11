@@ -82,9 +82,9 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const fiberParentDom = fiber.parent.dom;
+  const parentDom = fiber.parent.dom;
 
-  fiberParentDom.appendChild(fiber.dom);
+  parentDom.appendChild(fiber.dom);
   commitWork(fiber.child);
   commitWork(fiber.sibling);
 }

@@ -85,18 +85,18 @@ function updateDom(dom, oldProps, newProps) {
     .filter(isOld(oldProps, newProps))
     .forEach((name) => {
       // onClick -> click
-      const eventType = name.substring(2).toLowerCase();
+      const newName = name.substring(2).toLowerCase();
 
-      dom.removeEventListener(eventType, oldProps[name]);
+      dom.removeEventListener(newName, oldProps[name]);
     });
   // 添加新事件
   Object.keys(newProps)
     .filter(isEvent)
     .filter(isNew(oldProps, newProps))
     .forEach((name) => {
-      const eventType = name.substring(2).toLowerCase();
+      const newName = name.substring(2).toLowerCase();
 
-      dom.addEventListener(eventType, newProps[name]);
+      dom.addEventListener(newName, newProps[name]);
     });
 }
 
@@ -120,14 +120,14 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const fiberParentDom = fiber.parent.dom;
+  const parentDom = fiber.parent.dom;
 
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
-    fiberParentDom.appendChild(fiber.dom);
+    parentDom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION' && fiber.dom) {
-    fiberParentDom.removeChild(fiber.dom);
+    parentDom.removeChild(fiber.dom);
   }
 
   commitWork(fiber.child);

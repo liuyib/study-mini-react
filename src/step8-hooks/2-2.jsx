@@ -90,29 +90,29 @@ function updateDom(dom, oldProps, newProps) {
     .filter(isOld(oldProps, newProps))
     .forEach((name) => {
       // onClick -> click
-      const eventType = name.substring(2).toLowerCase();
+      const newName = name.substring(2).toLowerCase();
 
-      dom.removeEventListener(eventType, oldProps[name]);
+      dom.removeEventListener(newName, oldProps[name]);
     });
   // 添加新事件
   Object.keys(newProps)
     .filter(isEvent)
     .filter(isNew(oldProps, newProps))
     .forEach((name) => {
-      const eventType = name.substring(2).toLowerCase();
+      const newName = name.substring(2).toLowerCase();
 
-      dom.addEventListener(eventType, newProps[name]);
+      dom.addEventListener(newName, newProps[name]);
     });
 }
 
 /**
  * 使用 Fiber 递归删除所有子代 DOM
  */
-function deleteDom(fiber, fiberParentDom) {
+function deleteDom(fiber, parentDom) {
   if (fiber.dom) {
-    fiberParentDom.removeChild(fiber.dom);
+    parentDom.removeChild(fiber.dom);
   } else {
-    deleteDom(fiber.child, fiberParentDom);
+    deleteDom(fiber.child, parentDom);
   }
 }
 
@@ -143,14 +143,14 @@ function commitWork(fiber) {
     fiberParent = fiberParent.parent;
   }
 
-  const fiberParentDom = fiberParent.dom;
+  const parentDom = fiberParent.dom;
 
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
-    fiberParentDom.appendChild(fiber.dom);
+    parentDom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION') {
-    deleteDom(fiber, fiberParentDom);
+    deleteDom(fiber, parentDom);
 
     // 递归删除 Fiber 对应的所有后代 DOM 后，需要停止 commitWork 函数的递归，
     // 否则删除的 DOM 又会被重新添加到页面上，因为被标记 "DELETION" 的 Fiber，
@@ -263,9 +263,9 @@ function updateFunctionComponent(fiber) {
   wipFiber.hooks = [];
 
   // 对于函数式组件，其没有对应的 DOM，通过执行其对应的函数即可得到 children
-  const elements = [fiber.type(fiber.props)];
+  const element = fiber.type(fiber.props);
 
-  reconcileChildren(fiber, elements);
+  reconcileChildren(fiber, [element]);
 }
 
 /**
@@ -296,8 +296,10 @@ function updateHostComponent(fiber) {
     fiber.dom = createDom(fiber);
   }
 
+  const elements = fiber.props.children;
+
   // 协调 Fiber 与其子元素
-  reconcileChildren(fiber, fiber.props.children);
+  reconcileChildren(fiber, elements);
 }
 
 /**

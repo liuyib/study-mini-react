@@ -94,14 +94,14 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const fiberParentDom = fiber.parent.dom;
+  const parentDom = fiber.parent.dom;
 
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
-    fiberParentDom.appendChild(fiber.dom);
+    parentDom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION' && fiber.dom) {
-    fiberParentDom.removeChild(fiber.dom);
+    parentDom.removeChild(fiber.dom);
   }
 
   commitWork(fiber.child);
