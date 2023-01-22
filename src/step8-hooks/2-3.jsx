@@ -255,7 +255,6 @@ function performUnitOfWork(fiber) {
   }
 }
 
-let wipFiber = null;
 let hookIndex = null;
 
 /**
@@ -264,9 +263,8 @@ let hookIndex = null;
  * @returns
  */
 function updateFunctionComponent(fiber) {
-  wipFiber = fiber;
+  unitOfWork.hooks = [];
   hookIndex = 0;
-  wipFiber.hooks = [];
 
   // 对于函数式组件，其没有对应的 DOM，通过执行其对应的函数即可得到 children
   const element = fiber.type(fiber.props);
@@ -280,7 +278,7 @@ function updateFunctionComponent(fiber) {
  * @returns [*, Function]
  */
 function useState(initial) {
-  const oldHook = wipFiber.alternate?.hooks?.[hookIndex];
+  const oldHook = unitOfWork.alternate?.hooks?.[hookIndex];
   const hook = {
     state: oldHook ? oldHook.state : initial,
     queue: [],
@@ -294,7 +292,7 @@ function useState(initial) {
         : stateOrAction;
   });
 
-  wipFiber.hooks.push(hook);
+  unitOfWork.hooks.push(hook);
   hookIndex++;
 
   function setState(stateOrAction) {
