@@ -77,7 +77,7 @@ function render(element, container) {
       ? document.createTextNode('')
       : document.createElement(element.type);
 
-  const isProperty = (key) => key !== 'children';
+  const isProperty = (name) => name !== 'children';
 
   // 传入的参数赋值到 DOM 上
   Object.keys(element.props)

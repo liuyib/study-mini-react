@@ -53,10 +53,10 @@ function createDom(fiber) {
   return dom;
 }
 
-const isProperty = (key) => key !== 'children';
-const isOld = (prev, next) => (key) => prev[key] && !next[key];
+const isProperty = (name) => name !== 'children';
+const isOld = (oldProps, newProps) => (key) => oldProps[key] && !newProps[key];
 // “next 中有新的键”或“prev 和 next 中相同键的值不同”
-const isNew = (prev, next) => (key) => prev[key] !== next[key];
+const isNew = (oldProps, newProps) => (key) => oldProps[key] !== newProps[key];
 
 /**
  * 使用 Fiber 更新对应的 DOM

@@ -50,7 +50,7 @@ function createDom(fiber) {
       ? document.createTextNode('')
       : document.createElement(fiber.type);
 
-  const isProperty = (key) => key !== 'children';
+  const isProperty = (name) => name !== 'children';
 
   // 传入的参数赋值到 Fiber 上
   Object.keys(fiber.props)
