@@ -1,6 +1,8 @@
 /**
  * 实现自定义的 render(element, container) 函数逻辑
- * 1. 处理 element 为 `TEXT_ELEMENT` 类型的元素的情况
+ * 1. 与 DOM 交互
+ *   1.1 处理 element 为 `TEXT_ELEMENT` 类型的元素的情况
+ * 2. 递归处理子元素
  */
 
 function createElement(type, props, ...children) {

@@ -65,7 +65,6 @@ function workLoop(idleDeadline) {
 
 window.requestIdleCallback(workLoop);
 
-// 在浏览器空闲时间需要执行的任务
 function performUnitOfWork(unitOfWork) {
   // TODO: ...
 }

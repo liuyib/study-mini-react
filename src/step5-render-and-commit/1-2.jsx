@@ -2,13 +2,6 @@
  * 实现 commitRoot 函数的逻辑，即“将所有 Fiber 节点统一提交到 DOM”
  */
 
-/**
- * 创建“React 元素”
- * @param {string} type                   元素类型
- * @param {Object} props                  元素参数
- * @param  {(Object | string)[]} children 元素的孩子
- * @returns React 元素
- */
 function createElement(type, props, ...children) {
   return {
     type,
@@ -20,7 +13,6 @@ function createElement(type, props, ...children) {
     },
   };
 }
-
 
 function createTextElement(text) {
   return {
@@ -50,25 +42,18 @@ function createDom(fiber) {
   return dom;
 }
 
-/**
- * 从 Fiber 根节点开始，将所有 Fiber 节点提交到 DOM 中
- */
 function commitRoot() {
   commitWork(wipRoot.child);
   wipRoot = null;
 }
 
-/**
- * 将指定 Fiber 节点提交到 DOM 中
- * @param {Fiber} fiber
- * @returns
- */
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const parentDom = fiber.parent.dom;
+  if (fiber.dom) {
+    fiber.parent.dom.appendChild(fiber.dom);
+  }
 
-  parentDom.appendChild(fiber.dom);
   commitWork(fiber.child);
   commitWork(fiber.sibling);
 }
@@ -111,7 +96,6 @@ function performUnitOfWork(fiber) {
     fiber.dom = createDom(fiber);
   }
 
-  // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;
   let prevSibling = null;
 

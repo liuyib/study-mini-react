@@ -81,7 +81,6 @@ function performUnitOfWork(fiber) {
     fiber.parent.dom.appendChild(fiber.dom);
   }
 
-  // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;
   let prevSibling = null;
 

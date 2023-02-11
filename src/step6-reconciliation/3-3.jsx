@@ -4,13 +4,6 @@
  * 2. 处理事件属性
  */
 
-/**
- * 创建“React 元素”
- * @param {string} type                   元素类型
- * @param {Object} props                  元素参数
- * @param  {(Object | string)[]} children 元素的孩子
- * @returns React 元素
- */
 function createElement(type, props, ...children) {
   return {
     type,
@@ -22,7 +15,6 @@ function createElement(type, props, ...children) {
     },
   };
 }
-
 
 function createTextElement(text) {
   return {
@@ -51,9 +43,6 @@ const isOld = (oldProps, newProps) => (key) => oldProps[key] && !newProps[key];
 // “next 中有新的键”或“prev 和 next 中相同键的值不同”
 const isNew = (oldProps, newProps) => (key) => oldProps[key] !== newProps[key];
 
-/**
- * 使用 Fiber 更新对应的 DOM
- */
 function updateDom(dom, oldProps, newProps) {
   // 移除旧属性
   Object.keys(oldProps)
@@ -91,9 +80,6 @@ function updateDom(dom, oldProps, newProps) {
     });
 }
 
-/**
- * 从 Fiber 根节点开始，将所有 Fiber 节点提交到 DOM 中
- */
 function commitRoot() {
   // 提交被“删除”的 Fiber
   deletions.forEach(commitWork);
@@ -103,22 +89,15 @@ function commitRoot() {
   wipRoot = null;
 }
 
-/**
- * 将指定 Fiber 节点提交到 DOM 中
- * @param {Fiber} fiber
- * @returns
- */
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const parentDom = fiber.parent.dom;
-
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
-    parentDom.appendChild(fiber.dom);
+    fiber.parent.dom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION' && fiber.dom) {
-    parentDom.removeChild(fiber.dom);
+    fiber.parent.dom.removeChild(fiber.dom);
   }
 
   commitWork(fiber.child);
@@ -131,7 +110,6 @@ function render(element, container) {
     props: {
       children: [element],
     },
-    // 连接旧的 Fiber 节点
     alternate: oldRoot,
   };
   wipRoot = unitOfWork;
@@ -139,11 +117,8 @@ function render(element, container) {
 }
 
 let unitOfWork = null;
-/** 工作中的 Fiber 树 */
 let wipRoot = null;
-/** 最后已经提交到 DOM 的 Fiber 树 */
 let oldRoot = null;
-/** 待删除的旧 Fiber */
 let deletions = null;
 
 function workLoop(idleDeadline) {
@@ -172,7 +147,6 @@ function performUnitOfWork(fiber) {
   }
 
   const elements = fiber.props.children;
-
   // 协调 Fiber 与其子元素
   reconcileChildren(fiber, elements);
 
@@ -190,12 +164,6 @@ function performUnitOfWork(fiber) {
   }
 }
 
-/**
- * 协调“旧 Fiber”与“新元素”
- * @param {Fiber} fiber                         Fiber 节点
- * @param {DetailedReactHTMLElement[]} elements React.crateElement 的返回值数组
- * @returns
- */
 function reconcileChildren(fiber, elements) {
   let oldFiber = fiber.alternate?.child;
   let prevSibling = null;

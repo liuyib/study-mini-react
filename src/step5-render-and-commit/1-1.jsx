@@ -12,13 +12,6 @@
  * 2. 在 workLoop 中添加判断，当“没有下一个工作单元”并且“存在工作中的根”时，统一将 Fiber 提交到 DOM
  */
 
-/**
- * 创建“React 元素”
- * @param {string} type                   元素类型
- * @param {Object} props                  元素参数
- * @param  {(Object | string)[]} children 元素的孩子
- * @returns React 元素
- */
 function createElement(type, props, ...children) {
   return {
     type,
@@ -30,7 +23,6 @@ function createElement(type, props, ...children) {
     },
   };
 }
-
 
 function createTextElement(text) {
   return {
@@ -102,7 +94,6 @@ function performUnitOfWork(fiber) {
     fiber.dom = createDom(fiber);
   }
 
-  // 对于每个孩子，都创建一个 Fiber
   const elements = fiber.props.children;
   let prevSibling = null;
 
