@@ -187,8 +187,8 @@ function performUnitOfWork(fiber) {
 let hookIndex = null;
 
 function updateFunctionComponent(fiber) {
-  unitOfWork.hooks = [];
   hookIndex = 0;
+  unitOfWork.hooks = [];
 
   // 对于函数式组件，其没有对应的 DOM，通过执行其对应的函数即可得到 children
   const element = fiber.type(fiber.props);
