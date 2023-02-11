@@ -6,13 +6,6 @@
  * 3. 搜索 Fiber 树（顺序依次是：孩子、兄弟、父兄弟），返回第一个找到的 Fiber 节点
  */
 
-/**
- * 创建“React 元素”
- * @param {string} type                   元素类型
- * @param {Object} props                  元素参数
- * @param  {(Object | string)[]} children 元素的孩子
- * @returns React 元素
- */
 function createElement(type, props, ...children) {
   return {
     type,
@@ -25,11 +18,6 @@ function createElement(type, props, ...children) {
   };
 }
 
-/**
- * 创建“React 文本元素”
- * @param {string} text 文本值
- * @returns React 文本元素
- */
 function createTextElement(text) {
   return {
     type: 'TEXT_ELEMENT',
@@ -40,11 +28,6 @@ function createTextElement(text) {
   };
 }
 
-/**
- * 根据 Fiber 创建 DOM
- * @param {Fiber} fiber Fiber 节点
- * @returns 根据 Fiber 节点创建的 DOM
- */
 function createDom(fiber) {
   const dom =
     fiber.type === 'TEXT_ELEMENT'
@@ -53,7 +36,7 @@ function createDom(fiber) {
 
   const isProperty = (name) => name !== 'children';
 
-  // 传入的参数赋值到 Fiber 上
+  // 传入的参数赋值到 fiber 上
   Object.keys(fiber.props)
     .filter(isProperty)
     .forEach((name) => {
@@ -63,12 +46,6 @@ function createDom(fiber) {
   return dom;
 }
 
-/**
- * 渲染元素
- * @param {JSX.Element} element   需要渲染的元素
- * @param {HTMLElement} container 容器
- * @returns
- */
 function render(element, container) {
   unitOfWork = {
     dom: container,
@@ -80,13 +57,6 @@ function render(element, container) {
 
 let unitOfWork = null;
 
-/**
- * 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
- * @param {Object} idleDeadline https://developer.mozilla.org/en-US/docs/Web/API/IdleDeadline
- * @param {boolean} idleDeadline.didTimeout     回调是否被调用
- * @param {Function} idleDeadline.timeRemaining 调用后返回“浏览器当前帧剩余的空闲时间”
- * @returns
- */
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
@@ -101,17 +71,6 @@ function workLoop(idleDeadline) {
 
 window.requestIdleCallback(workLoop);
 
-/**
- * 依次处理每个 Fiber 节点
- * @param {Object} fiber          React Fiber
- * @param {string} fiber.type     Fiber 类型
- * @param {Object} fiber.props    Fiber 参数
- * @param {HTMLElement} fiber.dom Fiber 对应的 DOM
- * @param {Fiber} fiber.parent    Fiber 的父代
- * @param {Fiber} fiber.child     Fiber 的第一个孩子
- * @param {Fiber} fiber.sibling   Fiber 的兄弟
- * @returns 下一个需要处理的 Fiber 节点
- */
 function performUnitOfWork(fiber) {
   // 使用 Fiber 创建一个新的节点
   if (!fiber.dom) {
@@ -169,7 +128,7 @@ const MiniReact = {
 const element = (
   <div id="foo">
     <a>bar</a>
-    <b />
+    <hr />
   </div>
 );
 

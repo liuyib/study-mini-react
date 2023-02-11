@@ -11,7 +11,7 @@ const element = React.createElement(
     id: 'foo',
   },
   React.createElement('a', null, 'bar'),
-  React.createElement('b'),
+  React.createElement('hr'),
 );
 
 const container = document.getElementById('root');

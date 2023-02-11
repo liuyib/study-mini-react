@@ -36,7 +36,7 @@ const element = MiniReact.createElement(
     id: 'foo',
   },
   MiniReact.createElement('a', null, 'bar'),
-  MiniReact.createElement('b'),
+  MiniReact.createElement('hr'),
 );
 
 const container = document.getElementById('root');

@@ -96,7 +96,6 @@ function render(element, container) {
 
 let unitOfWork = null;
 
-// 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
@@ -126,7 +125,7 @@ const MiniReact = {
 const element = (
   <div id="foo">
     <a>bar</a>
-    <b />
+    <hr />
   </div>
 );
 

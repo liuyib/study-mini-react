@@ -21,11 +21,7 @@ function createElement(type, props, ...children) {
   };
 }
 
-/**
- * 创建“React 文本元素”
- * @param {string} text 文本值
- * @returns React 文本元素
- */
+
 function createTextElement(text) {
   return {
     type: 'TEXT_ELEMENT',
@@ -36,11 +32,6 @@ function createTextElement(text) {
   };
 }
 
-/**
- * 根据 Fiber 创建 DOM
- * @param {Fiber} fiber Fiber 节点
- * @returns 根据 Fiber 节点创建的 DOM
- */
 function createDom(fiber) {
   const dom =
     fiber.type === 'TEXT_ELEMENT'
@@ -136,14 +127,12 @@ function commitWork(fiber) {
     fiberParent = fiberParent.parent;
   }
 
-  const parentDom = fiberParent.dom;
-
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom) {
-    parentDom.appendChild(fiber.dom);
+    fiberParent.dom.appendChild(fiber.dom);
   } else if (fiber.effectTag === 'UPDATE' && fiber.dom) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props);
   } else if (fiber.effectTag === 'DELETION') {
-    deleteDom(fiber, parentDom);
+    deleteDom(fiber, fiberParent.dom);
 
     // 递归删除 Fiber 对应的所有后代 DOM 后，需要停止 commitWork 函数的递归，
     // 否则删除的 DOM 又会被重新添加到页面上，因为被标记 "DELETION" 的 Fiber，
@@ -155,12 +144,6 @@ function commitWork(fiber) {
   commitWork(fiber.sibling);
 }
 
-/**
- * 渲染元素
- * @param {JSX.Element} element   需要渲染的元素
- * @param {HTMLElement} container 容器
- * @returns
- */
 function render(element, container) {
   unitOfWork = {
     dom: container,
@@ -182,13 +165,6 @@ let oldRoot = null;
 /** 待删除的旧 Fiber */
 let deletions = null;
 
-/**
- * 在浏览器空闲时间执行任务，没有空闲时间则放弃执行
- * @param {Object} idleDeadline https://developer.mozilla.org/en-US/docs/Web/API/IdleDeadline
- * @param {boolean} idleDeadline.didTimeout     回调是否被调用
- * @param {Function} idleDeadline.timeRemaining 调用后返回“浏览器当前帧剩余的空闲时间”
- * @returns
- */
 function workLoop(idleDeadline) {
   let shouldYield = false;
 
@@ -208,17 +184,6 @@ function workLoop(idleDeadline) {
 
 window.requestIdleCallback(workLoop);
 
-/**
- * 依次处理每个 Fiber 节点
- * @param {Object} fiber          React Fiber
- * @param {string} fiber.type     Fiber 类型
- * @param {Object} fiber.props    Fiber 参数
- * @param {HTMLElement} fiber.dom Fiber 对应的 DOM
- * @param {Fiber} fiber.parent    Fiber 的父代
- * @param {Fiber} fiber.child     Fiber 的第一个孩子
- * @param {Fiber} fiber.sibling   Fiber 的兄弟
- * @returns 下一个需要处理的 Fiber 节点
- */
 function performUnitOfWork(fiber) {
   const isFunctionComponent = typeof fiber.type === 'function';
 
